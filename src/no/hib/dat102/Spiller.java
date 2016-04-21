@@ -19,4 +19,8 @@ public class Spiller {
 	public void setPlassering(int plassering){
 		this.plassering = plassering;
 	}
+	
+	public int getPlassering(){
+		return plassering;
+	}
 }
