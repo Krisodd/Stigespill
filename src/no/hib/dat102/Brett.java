@@ -28,14 +28,19 @@ public class Brett {
 	public Brett() { 
 		int antallStiger = 0;
 		int antallSlanger = 0;
-		for(int i=1;i<=ANTALL_RUTER;i++) { // populate board
-			if(STIGE_MAPPING[antallStiger][0]==i) {
+
+		for(int i=1;i<ANTALL_RUTER;i++) { // populate board
+			if(antallStiger<STIGE_MAPPING.length&&STIGE_MAPPING[antallStiger][0]==i) {
 				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1]);
 				antallStiger++;
-			} else if (SLANGE_MAPPING[antallSlanger][0]==i) {
+				
+				System.out.println("Added stige: " + ruter[i].getRuteIndex());
+			} else if (antallSlanger<SLANGE_MAPPING.length&&SLANGE_MAPPING[antallSlanger][0]==i) {
 				ruter[i] = new Slange(i, SLANGE_MAPPING[antallSlanger][1]);
 				antallSlanger++;
+				
 			} else {
+				
 				ruter[i] = new Rute(i);
 			}
 		}
