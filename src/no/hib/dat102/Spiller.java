@@ -15,4 +15,8 @@ public class Spiller {
 	public Brikke getBrikke(){
 		return brikke;
 	}
+	
+	public void setPlassering(int plassering){
+		this.plassering = plassering;
+	}
 }
