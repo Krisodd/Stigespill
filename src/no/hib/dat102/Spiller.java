@@ -3,17 +3,20 @@ package no.hib.dat102;
 public class Spiller {
 	
 	int plassering;
-	String brikkefarge;
-	Brikke brikke;
+	String spillerNavn;
 	
-	public Spiller(int spillernr){
+	
+	public Spiller(){
 		plassering = 0;
-		brikke = new Brikke(spillernr);
 		
 	}
 	
-	public Brikke getBrikke(){
-		return brikke;
+	public void setNavn(String navn){
+		spillerNavn = navn;
+	}
+	
+	public String getNavn(){
+		return spillerNavn;
 	}
 	
 	public void setPlassering(int plassering){
