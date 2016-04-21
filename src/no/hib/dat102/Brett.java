@@ -1,11 +1,12 @@
 package no.hib.dat102;
 
 public class Brett {
-	final int ANTALL_RUTER = 100;
+	final int ANTALL_RUTER = 101;
 	final int ANTALL_SLANGER = 5;
 	final int ANTALL_STIGER = 5;
 	
-	// The mappings must be sorted by the first element in each entry!
+	// The mappings must be sorted by the element index (the first element in each sub-array)
+	// Formatted as a pair of integers, where [0] represents the tile index and [1] represents the destination index
 	int[][] STIGE_MAPPING = { 
 			{14, 23}, 
 			{24, 28}, 
@@ -27,15 +28,19 @@ public class Brett {
 	public Brett() { 
 		int antallStiger = 0;
 		int antallSlanger = 0;
-		for(int i=1;i<=ANTALL_RUTER;i++) { // populate board
-			
-			if(STIGE_MAPPING[antallStiger][0]==i) {
+
+		for(int i=1;i<ANTALL_RUTER;i++) { // populate board
+			if(antallStiger<STIGE_MAPPING.length&&STIGE_MAPPING[antallStiger][0]==i) {
 				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1]);
 				antallStiger++;
-			} else if (SLANGE_MAPPING[antallSlanger][0]==i) {
+				
+				System.out.println("Added stige: " + ruter[i].getRuteIndex());
+			} else if (antallSlanger<SLANGE_MAPPING.length&&SLANGE_MAPPING[antallSlanger][0]==i) {
 				ruter[i] = new Slange(i, SLANGE_MAPPING[antallSlanger][1]);
 				antallSlanger++;
+				
 			} else {
+				
 				ruter[i] = new Rute(i);
 			}
 		}
