@@ -15,4 +15,12 @@ public class Spiller {
 	public Brikke getBrikke(){
 		return brikke;
 	}
+	
+	public void setPlassering(int plassering){
+		this.plassering = plassering;
+	}
+	
+	public int getPlassering(){
+		return plassering;
+	}
 }

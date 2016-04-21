@@ -6,8 +6,6 @@ public class Klient {
 
 	public void Start(){
 		
-		Spill spill = new Spill();
-		
 		System.out.println("Hei og velkommen til stigespill");
 		System.out.println("Hvor mange spillere er dere?(2-4)");
 		
@@ -30,9 +28,16 @@ public class Klient {
 		}
 		System.out.println("Dere har valgt "+antall+" antall spillere");
 		
+		Spill spill = new Spill(spillere);
+		
 		boolean vinner = false;
 		while(!vinner){
-			
+			for(int i = 0; i < antall; i++){
+				if(spillere[i].getPlassering() == 100){
+					vinner = true;
+					System.out.println((spillere[i].getBrikke().getFarge() + " har vunnet dette spillet!"));
+				}
+			}
 		}
 		tast.close();
 	}
