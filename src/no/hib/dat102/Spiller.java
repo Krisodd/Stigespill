@@ -15,5 +15,4 @@ public class Spiller {
 	public Brikke getBrikke(){
 		return brikke;
 	}
-
 }
