@@ -18,7 +18,7 @@ public class Klient {
 			if(antall >= 2 && antall <= 4){
 				spillere = new Spiller[antall];
 				for(int i = 0; i<antall; i++){
-					spillere[i] = new Spiller(i+1);
+					spillere[i] = new Spiller();
 				}
 				valg = true;
 			}else{
@@ -28,6 +28,11 @@ public class Klient {
 		}
 		System.out.println("Dere har valgt "+antall+" antall spillere");
 		
+		for(int i = 0; i<antall; i++){
+			System.out.println("Hva heter spiller "+(i+1)+"?");
+			spillere[i].setNavn(tast.next());
+		}
+		
 		Spill spill = new Spill(spillere);
 		
 		boolean vinner = false;
@@ -35,7 +40,7 @@ public class Klient {
 			for(int i = 0; i < antall; i++){
 				if(spillere[i].getPlassering() == 100){
 					vinner = true;
-					System.out.println((spillere[i].getBrikke().getFarge() + " har vunnet dette spillet!"));
+					System.out.println((spillere[i].getNavn() + " har vunnet dette spillet!"));
 				}
 			}
 		}
