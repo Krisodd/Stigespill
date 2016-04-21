@@ -1,11 +1,12 @@
 package no.hib.dat102;
 
 public class Brett {
-	final int ANTALL_RUTER = 100;
+	final int ANTALL_RUTER = 101;
 	final int ANTALL_SLANGER = 5;
 	final int ANTALL_STIGER = 5;
 	
 	// The mappings must be sorted by the element index (the first element in each sub-array)
+	// Formatted as a pair of integers, where [0] represents the tile index and [1] represents the destination index
 	int[][] STIGE_MAPPING = { 
 			{14, 23}, 
 			{24, 28}, 
@@ -28,7 +29,6 @@ public class Brett {
 		int antallStiger = 0;
 		int antallSlanger = 0;
 		for(int i=1;i<=ANTALL_RUTER;i++) { // populate board
-			
 			if(STIGE_MAPPING[antallStiger][0]==i) {
 				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1]);
 				antallStiger++;
