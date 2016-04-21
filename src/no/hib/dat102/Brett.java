@@ -5,7 +5,7 @@ public class Brett {
 	final int ANTALL_SLANGER = 5;
 	final int ANTALL_STIGER = 5;
 	
-	// The mappings must be sorted by the first element in each entry!
+	// The mappings must be sorted by the element index (the first element in each sub-array)
 	int[][] STIGE_MAPPING = { 
 			{14, 23}, 
 			{24, 28}, 
