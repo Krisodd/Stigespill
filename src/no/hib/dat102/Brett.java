@@ -2,8 +2,8 @@ package no.hib.dat102;
 
 public class Brett {
 	final int ANTALL_RUTER = 101; // Add one to keep Arrays happy
-
 	Rute[] ruter = new Rute[ANTALL_RUTER];
+	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Special tiles mapping																							//
