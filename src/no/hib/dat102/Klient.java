@@ -3,13 +3,31 @@ package no.hib.dat102;
 import java.util.Scanner;
 
 public class Klient {
-
+	boolean online = false;
+	boolean valid_input = false;
+	Scanner tast = new Scanner(System.in);
+	
 	public void Start(){
 		
-		System.out.println("Hei og velkommen til stigespill");
-		System.out.println("Hvor mange spillere er dere?(2-4)");
 		
-		Scanner tast = new Scanner(System.in);
+		System.out.println("Hei og velkommen til stigespill");
+		
+		do{
+			System.out.println("Vil du koble spillet opp mot vÃ¥r database? Y/N");
+			String db_yn = tast.nextLine();
+			if(db_yn.compareToIgnoreCase("y")==0) {
+				online = true;
+				valid_input=true;
+			} else if(db_yn.compareToIgnoreCase("n")==0) {
+				online = false;
+				valid_input=true;
+			} 
+		} while (!valid_input);
+		
+		
+		
+			
+		System.out.println("Hvor mange spillere er dere?(2-4)");
 		int antall = tast.nextInt();
 		Spiller[] spillere = new Spiller[antall];
 		
@@ -22,7 +40,7 @@ public class Klient {
 				}
 				valg = true;
 			}else{
-				System.out.println("Ugylid valg av antall spillere, vennligst prøv igjen");
+				System.out.println("Ugylid valg av antall spillere, vennligst prï¿½v igjen");
 				antall = tast.nextInt();
 			}
 		}
@@ -40,7 +58,7 @@ public class Klient {
 			for(int i = 0; i < antall; i++){
 				if(spillere[i].getPlassering() == 100){
 					vinner = true;
-					System.out.println((spillere[i].getNavn() + " har vunnet dette spillet!"));
+					System.out.println(spillere[i].getNavn() + " har vunnet dette spillet!");
 				}
 			}
 		}

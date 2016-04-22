@@ -3,7 +3,7 @@ package no.hib.dat102;
 public class Brett {
 	final int ANTALL_RUTER = 101; // Add one to keep Arrays happy
 	Rute[] ruter = new Rute[ANTALL_RUTER];
-	
+	int[] plassering = new int[4];
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Special tiles mapping																							//
@@ -26,9 +26,6 @@ public class Brett {
 			{99, 91}};
 	
 	
-	
-
-	
 	public Brett() { 
 		int antallStiger = 0;
 		int antallSlanger = 0;
@@ -40,9 +37,35 @@ public class Brett {
 			} else if (antallSlanger<SLANGE_MAPPING.length&&SLANGE_MAPPING[antallSlanger][0]==i) {
 				ruter[i] = new Slange(i, SLANGE_MAPPING[antallSlanger][1]);
 				antallSlanger++;
+				System.out.println("Added slange: " + ruter[i].getRuteIndex());
 			} else {
 				ruter[i] = new Rute(i);
 			}
 		}
 	}
+	public Rute[] getRuter() {
+		return ruter;
+	}
+	public Rute getRute(int index) {
+		return ruter[index];
+	}
+	public int specialMove(int index) {
+		return ruter[index].move();
+	}
+	public int tileDestination(int index) { // If true, returns an integer with the destination tile of the special tile
+		return ruter[index].getDestinationIndex();
+	}
+	public boolean isSpecialTile(int index) {
+		if (index>100){
+			return false;
+		}
+		return ruter[index].isSpecialTile();
+	}
+	public void goTo(Spiller spiller, int index){
+		spiller.setPlassering(index);
+		if(ruter[index] instanceof Stige) {
+			ruter[index].move();
+		}
+	}
+	
 }

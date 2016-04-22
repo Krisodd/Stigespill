@@ -12,4 +12,13 @@ public class Rute {
 	public void setRuteIndex(int rutenummer) {
 		this.rutenummer = rutenummer;
 	}
+	public int getDestinationIndex(){
+		return -1;
+	}
+	public boolean isSpecialTile() {
+		return this instanceof Slange || this instanceof Stige;
+	}
+	public int move() {
+		return -1;
+	}
 }
