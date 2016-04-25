@@ -7,7 +7,7 @@ public class Spiller {
 	
 	
 	public Spiller(){
-		plassering = 0;
+		plassering = 1;
 		
 	}
 	

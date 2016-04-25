@@ -13,15 +13,17 @@ public class Spill {
 		currentTur=0;
 		this.spillere = spillere;
 		System.out.println("Dere startet et nytt spill.");
-		start();
+		int vinner = start();
+		System.out.println("Spillet er ferdig, vinneren er " + spillere[vinner].getNavn());
 	}
 	
 	
 	public Spiller flyttBrikke(Spiller spiller) {
+		boolean tilbake = false;
 		System.out.println("Trykk enter for å trille terningen.");
 		s.nextLine();
 		int trill=dice.trill();
-		System.out.println("Du trillet: " + trill);
+		System.out.println(spiller.getNavn() + " trillet: " + trill);
 		int currentPlace = spiller.getPlassering();
 		if(currentPlace+trill>100) {
 			System.out.println("Du trillet over 100!");
@@ -30,16 +32,22 @@ public class Spill {
 			temp_index = 100-temp_index;
 			System.out.println(spiller.getNavn() + " rykket tilbake til rute " + temp_index);
 			spiller.setPlassering(temp_index);
+			tilbake = true;
 		} else if((currentPlace+trill)==100) {
-			System.out.println("Royal Kebab Pizza til" + spiller.getNavn() + " her!");
+			System.out.println("Royal Kebab Pizza til " + spiller.getNavn() + " her!");
 			return spiller;
 		}
+		if(!tilbake){
 		System.out.println(spiller.getNavn() + " flytter seg fra rute " + currentPlace + ", til rute " + (currentPlace+trill));
 		currentPlace += trill;
-		if (currentPlace<100 &&brett.isSpecialTile(currentPlace)) {
-			brett.specialMove(currentPlace);
 		}
+		if (currentPlace<100 &&brett.isSpecialTile(currentPlace)) {
+			spiller.setPlassering(brett.specialMove(currentPlace));
+		} else if(!tilbake) {
 		spiller.setPlassering(currentPlace);
+		}
+		System.out.println();
+		
 		return null;
 		
 	}
@@ -63,7 +71,9 @@ public class Spill {
 	public int start() { // returns the winner!
 		hvemSinTur();
 		while(!ferdig) {
-			flyttBrikke(spillere[currentTur]);
+			if(flyttBrikke(spillere[currentTur])!=null) {
+				return currentTur;
+			}
 			nesteSinTur();
 		}
 		return -1;
