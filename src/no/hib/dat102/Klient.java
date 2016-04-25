@@ -8,7 +8,7 @@ public class Klient {
 	Scanner tast = new Scanner(System.in);
 	
 	public void Start(){
-		
+		int test;
 		
 		System.out.println("Hei og velkommen til stigespill");
 		
