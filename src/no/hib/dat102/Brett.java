@@ -33,11 +33,11 @@ public class Brett {
 			if(antallStiger<STIGE_MAPPING.length&&STIGE_MAPPING[antallStiger][0]==i) {
 				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1]);
 				antallStiger++;
-				System.out.println("Added stige: " + ruter[i].getRuteIndex());
+				System.out.println("Added stige: " + ruter[i].getRuteIndex() + " -> " + ruter[i].getDestinationIndex());
 			} else if (antallSlanger<SLANGE_MAPPING.length&&SLANGE_MAPPING[antallSlanger][0]==i) {
 				ruter[i] = new Slange(i, SLANGE_MAPPING[antallSlanger][1]);
 				antallSlanger++;
-				System.out.println("Added slange: " + ruter[i].getRuteIndex());
+				System.out.println("Added slange: " + ruter[i].getRuteIndex() + " -> " + ruter[i].getDestinationIndex());
 			} else {
 				ruter[i] = new Rute(i);
 			}
