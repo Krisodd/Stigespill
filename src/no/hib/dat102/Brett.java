@@ -1,6 +1,17 @@
 package no.hib.dat102;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "stigespill")
 public class Brett {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	final int ANTALL_RUTER = 101; // Add one to keep Arrays happy
 	Rute[] ruter = new Rute[ANTALL_RUTER];
 	int[] plassering = new int[4];
