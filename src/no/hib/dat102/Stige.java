@@ -1,6 +1,13 @@
 package no.hib.dat102;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class Stige extends Rute {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Integer id;
 	private int ladderDestination;
 	public Stige(int rutenummer, int stigeMaal) {
 		super(rutenummer);

@@ -1,11 +1,24 @@
 package no.hib.dat102;
 import java.util.Scanner;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table
 public class Spill {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	Integer id;
 	int currentTur;
 	Spiller[] spillere;
 	Scanner s = new Scanner(System.in);
 	Terning dice = new Terning();
 	Brett brett;
+	DB_logic db = new DB_logic();
+	
 	boolean ferdig = false;
 	
 	public Spill(Spiller[] spillere){

@@ -1,15 +1,28 @@
 package no.hib.dat102;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.RollbackException;
+import javax.persistence.TypedQuery;
 
 public class DB_logic {
 	
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
-    EntityManager em = emf.createEntityManager();
-    
+	EntityManagerFactory emf;
+    EntityManager em;
+    public DB_logic() {
+    	emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+    	em = emf.createEntityManager();
+    }
+    public Rute[] getSlanger() {
+    	TypedQuery<Slange> query = em.createQuery("SELECT s FROM slange s", Slange.class);
+    	List<Slange> slanger = query.getResultList();
+    	return (Rute[]) slanger.toArray();
+    	
+    }
+    /*
     try {
         em.getTransaction().begin();
         em.persist(kunde);
@@ -18,7 +31,7 @@ public class DB_logic {
     	System.out.println(e);
         em.getTransaction().rollback();
     }
-    
+    */
     
     
     

@@ -10,6 +10,7 @@ import javax.persistence.Table;
 public class Spiller {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Integer id;
 	
 	int plassering;
 	String spillerNavn;

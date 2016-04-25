@@ -11,6 +11,7 @@ import javax.persistence.Table;
 public class Brett {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Integer id;
 	
 	final int ANTALL_RUTER = 101; // Add one to keep Arrays happy
 	Rute[] ruter = new Rute[ANTALL_RUTER];

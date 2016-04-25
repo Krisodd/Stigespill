@@ -1,7 +1,18 @@
 package no.hib.dat102;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 public class Slange extends Rute {
-	private int snakeDestination;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Integer id;
+	@ManyToOne
+	@JoinColumn(name="brett", referencedColumnName="id")
+	private Integer snakeDestination;
 	public Slange(int rutenummer, int slangeMaal) {
 		super(rutenummer);
 		this.snakeDestination = slangeMaal;
