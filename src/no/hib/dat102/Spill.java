@@ -20,9 +20,13 @@ public class Spill {
 	
 	public Spiller flyttBrikke(Spiller spiller) {
 		boolean tilbake = false;
+		int six_counter = 0;
+		int trill;
+		do {
 		System.out.println("Trykk enter for å trille terningen.");
 		s.nextLine();
-		int trill=dice.trill();
+		trill=dice.trill();
+		
 		System.out.println(spiller.getNavn() + " trillet: " + trill);
 		int currentPlace = spiller.getPlassering();
 		if(currentPlace+trill>100) {
@@ -47,7 +51,15 @@ public class Spill {
 		spiller.setPlassering(currentPlace);
 		}
 		System.out.println();
-		
+		if(trill == 6) {
+			System.out.println("Du trilte 6! Trill igjen :D");
+			six_counter++;
+		}
+		} while(trill==6&&six_counter<4); // Roll the die again if you get a 6
+		if(six_counter==3) {
+			System.out.println("Du trillet 6 tre ganger! Gå tilbake til start");
+			spiller.setPlassering(1);
+		}
 		return null;
 		
 	}
