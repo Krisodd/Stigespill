@@ -22,6 +22,7 @@ public class Spill {
 		boolean tilbake = false;
 		int six_counter = 0;
 		int trill;
+		boolean stuckPaaForste = false;
 		do {
 		System.out.println("Trykk enter for å trille terningen.");
 		s.nextLine();
@@ -57,7 +58,7 @@ public class Spill {
 		}
 		} while(trill==6&&six_counter<4); // Roll the die again if you get a 6
 		if(six_counter==3) {
-			System.out.println("Du trillet 6 tre ganger! Gå tilbake til start");
+			System.out.println("Du trillet 6 tre ganger! Gå tilbake til start. Du må trille 6 igjen for å starte");
 			spiller.setPlassering(1);
 		}
 		return null;
