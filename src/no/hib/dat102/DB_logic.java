@@ -9,7 +9,7 @@ import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 
 public class DB_logic {
-	
+	boolean online = false;
 	EntityManagerFactory emf;
     EntityManager em;
     public DB_logic() {

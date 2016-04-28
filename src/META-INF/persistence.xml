@@ -13,6 +13,7 @@
       <class>no.hib.dat102.Spiller</class>
       <class>no.hib.dat102.Slange</class>
       <class>no.hib.dat102.Stige</class>
+      <class>no.hib.dat102.Logg</class>
 
       <properties>
       	 <property name="javax.persistence.logging.level" value="INFO"/>

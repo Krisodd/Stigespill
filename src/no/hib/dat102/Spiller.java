@@ -1,11 +1,14 @@
 package no.hib.dat102;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name="spiller")
 @Table(schema = "stigespill")
 public class Spiller {
 	@Id
@@ -21,7 +24,9 @@ public class Spiller {
 		stuck = false;
 		
 	}
-	
+	public Integer getID(){
+		return id;
+	}
 	public void setNavn(String navn){
 		spillerNavn = navn;
 	}
@@ -42,6 +47,15 @@ public class Spiller {
 	}
 	public void setStuck(boolean b) {
 		this.stuck = b;
+	}
+	public static void sendSpiller(Spiller s, int trill) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("eclipselink");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(s);
+		em.getTransaction().commit();
+		em.close();
+		
 	}
 	
 }

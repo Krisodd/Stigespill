@@ -1,5 +1,6 @@
 package no.hib.dat102;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,23 +13,30 @@ import javax.persistence.Table;
 public class Slange extends Rute {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer brett;
-	private Integer snakeDestination;
+	Integer id;
+	@Column
+	private Integer til;
+	@Column
+	private Integer fra;
+	@ManyToOne
+	@JoinColumn(name="brett", referencedColumnName="id")
+	private Brett brett;
+	
 	public Slange(int rutenummer, int slangeMaal) {
 		super(rutenummer);
-		this.snakeDestination = slangeMaal;
+		this.til = slangeMaal;
 	}
 	public Slange() {
 	}
 	@Override
 	public int getDestinationIndex(){
-		return snakeDestination;
+		return til;
 	}
 	public void setDestinationIndex(int ladderDestinationIndex) {
-		this.snakeDestination = ladderDestinationIndex;
+		this.til = ladderDestinationIndex;
 	}
 	public int move() {
-		System.out.println("Du landet på en slange! Satans krypdyr! Du rykker ned til " + snakeDestination);
+		System.out.println("Du landet på en slange! Satans krypdyr! Du rykker ned til " + til);
 		return getDestinationIndex();
 	}
 }

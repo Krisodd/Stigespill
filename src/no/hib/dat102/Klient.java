@@ -8,7 +8,6 @@ public class Klient {
 	Scanner tast = new Scanner(System.in);
 	
 	public void Start(){
-		int test;
 		
 		System.out.println("Hei og velkommen til stigespill");
 		
@@ -51,7 +50,7 @@ public class Klient {
 			spillere[i].setNavn(tast.next());
 		}
 		
-		Spill spill = new Spill(spillere);
+		Spill spill = new Spill(spillere, online);
 		
 		boolean vinner = false;
 		while(!vinner){

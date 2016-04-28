@@ -1,34 +1,47 @@
 package no.hib.dat102;
 import java.util.Scanner;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-//@Entity
-//@Table
+@Entity(name="spill")
+@Table(schema="stigespill")
 public class Spill {
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer id;
-	int currentTur;
-	Spiller[] spillere;
-	Scanner s = new Scanner(System.in);
-	Terning dice = new Terning();
+	transient int currentTur;
+	transient Spiller[] spillere;
+	transient Scanner s = new Scanner(System.in);
+	transient Terning dice = new Terning();
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="brett")
 	Brett brett;
-	DB_logic db = new DB_logic();
-	
+	transient DB_logic db = new DB_logic();
+	transient Logg logg;
+	transient boolean uses_db;
+	@
+	Spiller spiller;
 	
 	boolean ferdig = false;
-	
-	public Spill(Spiller[] spillere){
+	public Integer getID() {
+		return id;
+	}
+	public Spill(Spiller[] spillere, boolean online){
+		uses_db=online;
+		if(uses_db){
 		brett = new Brett();
+		}
 		currentTur=0;
 		this.spillere = spillere;
 		System.out.println("Dere startet et nytt spill.");
-//		db.getBrett();
-		db.persistBrett(brett);
+
 		int vinner = start();
 		System.out.println("Spillet er ferdig, vinneren er " + spillere[vinner].getNavn());
 	}
@@ -44,6 +57,8 @@ public class Spill {
 		trill=dice.trill();
 		if(spiller.isStuck()&&trill!=6) {
 			System.out.println("Du må trille 6 for å fortsette spillet! :c");
+			logg = new Logg(spiller, trill, id);
+			logg.log();
 			return null;
 		}
 		System.out.println(spiller.getNavn() + " trillet: " + trill);
@@ -59,6 +74,8 @@ public class Spill {
 			tilbake = true;
 		} else if((currentPlace+trill)==100) {
 			System.out.println("Royal Kebab Pizza til " + spiller.getNavn() + " her!");
+			logg = new Logg(spiller, trill, id);
+			logg.log();
 			return spiller;
 		}
 		if(!tilbake){
@@ -81,6 +98,8 @@ public class Spill {
 			spiller.setPlassering(1);
 			spiller.setStuck(true);
 		}
+		logg = new Logg(spiller, trill, getID());
+		logg.log();
 		return null;
 		
 	}
