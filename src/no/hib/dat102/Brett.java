@@ -25,11 +25,7 @@ public class Brett {
 	transient Rute[] ruter = new Rute[ANTALL_RUTER];
 	int[] plassering = new int[4];
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="slange", targetEntity=Slange.class)
-	private Slange slange;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="stige", targetEntity=Stige.class)
-	private Stige stige;
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Special tiles mapping																							//
@@ -52,8 +48,9 @@ public class Brett {
 			{77, 47}, 
 			{88, 78}, 
 			{99, 91}};
-
+	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="brett", targetEntity=Slange.class)
 	List<Slange> slanger = new ArrayList<Slange>();
+	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="brett", targetEntity=Stige.class)
 	List<Stige> stiger = new ArrayList<Stige>();
 	
 	

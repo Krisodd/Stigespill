@@ -48,6 +48,7 @@ public class Klient {
 		for(int i = 0; i<antall; i++){
 			System.out.println("Hva heter spiller "+(i+1)+"?");
 			spillere[i].setNavn(tast.next());
+			spillere[i].persistSpiller();
 		}
 		
 		Spill spill = new Spill(spillere, online);

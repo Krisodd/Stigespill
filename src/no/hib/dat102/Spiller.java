@@ -5,6 +5,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
@@ -17,6 +19,9 @@ public class Spiller {
 	Boolean stuck;
 	Integer plassering;
 	String spillerNavn;
+//	@ManyToOne
+//	@JoinColumn(name="spill", referencedColumnName="id")
+//	private Spill spill;
 	
 	
 	public Spiller(){
@@ -48,11 +53,11 @@ public class Spiller {
 	public void setStuck(boolean b) {
 		this.stuck = b;
 	}
-	public static void sendSpiller(Spiller s, int trill) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("eclipselink");
+	public void persistSpiller() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(s);
+		em.persist(this);
 		em.getTransaction().commit();
 		em.close();
 		
