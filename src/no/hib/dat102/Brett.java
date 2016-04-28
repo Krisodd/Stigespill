@@ -1,12 +1,17 @@
 package no.hib.dat102;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name="brett")
 @Table(schema = "stigespill")
 public class Brett {
 	@Id
@@ -14,7 +19,7 @@ public class Brett {
 	Integer id;
 	
 	final int ANTALL_RUTER = 101; // Add one to keep Arrays happy
-	Rute[] ruter = new Rute[ANTALL_RUTER];
+	transient Rute[] ruter = new Rute[ANTALL_RUTER];
 	int[] plassering = new int[4];
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,35 +29,46 @@ public class Brett {
 	// Formatted as a pair of integers, where [0] represents the tile index and [1] represents the destination index	//
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	int[][] STIGE_MAPPING = { 
+	
+	transient int[][] STIGE_MAPPING = { 
 			{14, 23}, 
 			{24, 28}, 
 			{36, 47}, 
 			{69, 78}, 
 			{83, 91}};
-	int[][] SLANGE_MAPPING = {
+	
+	transient int[][] SLANGE_MAPPING = {
 			{32, 23}, 
 			{49, 28}, 
 			{77, 47}, 
 			{88, 78}, 
 			{99, 91}};
+
+	List<Slange> slanger = new ArrayList<Slange>();
+	List<Stige> stiger = new ArrayList<Stige>();
 	
 	
 	public Brett() { 
 		int antallStiger = 0;
 		int antallSlanger = 0;
+		if() {
 		for(int i=1;i<ANTALL_RUTER;i++) { // populate board with tiles
 			if(antallStiger<STIGE_MAPPING.length&&STIGE_MAPPING[antallStiger][0]==i) {
 				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1]);
+				stiger.add((Stige)ruter[i]);
 				antallStiger++;
 				System.out.println("Added stige: " + ruter[i].getRuteIndex() + " -> " + ruter[i].getDestinationIndex());
 			} else if (antallSlanger<SLANGE_MAPPING.length&&SLANGE_MAPPING[antallSlanger][0]==i) {
 				ruter[i] = new Slange(i, SLANGE_MAPPING[antallSlanger][1]);
 				antallSlanger++;
+				slanger.add((Slange)ruter[i]);
 				System.out.println("Added slange: " + ruter[i].getRuteIndex() + " -> " + ruter[i].getDestinationIndex());
 			} else {
 				ruter[i] = new Rute(i);
 			}
+		}
+		} else {
+			
 		}
 	}
 	public Rute[] getRuter() {

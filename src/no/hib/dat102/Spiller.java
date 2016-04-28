@@ -11,13 +11,14 @@ public class Spiller {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	
-	int plassering;
+	Boolean stuck;
+	Integer plassering;
 	String spillerNavn;
 	
 	
 	public Spiller(){
 		plassering = 1;
+		stuck = false;
 		
 	}
 	
@@ -36,4 +37,11 @@ public class Spiller {
 	public int getPlassering(){
 		return plassering;
 	}
+	public boolean isStuck() {
+		return stuck;
+	}
+	public void setStuck(boolean b) {
+		this.stuck = b;
+	}
+	
 }

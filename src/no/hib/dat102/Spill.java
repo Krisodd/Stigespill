@@ -6,11 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-@Entity
-@Table
+//@Entity
+//@Table
 public class Spill {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@Id
+//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer id;
 	int currentTur;
 	Spiller[] spillere;
@@ -19,6 +19,7 @@ public class Spill {
 	Brett brett;
 	DB_logic db = new DB_logic();
 	
+	
 	boolean ferdig = false;
 	
 	public Spill(Spiller[] spillere){
@@ -26,22 +27,27 @@ public class Spill {
 		currentTur=0;
 		this.spillere = spillere;
 		System.out.println("Dere startet et nytt spill.");
+//		db.getBrett();
+		db.persistBrett(brett);
 		int vinner = start();
 		System.out.println("Spillet er ferdig, vinneren er " + spillere[vinner].getNavn());
 	}
 	
 	
-	public Spiller flyttBrikke(Spiller spiller) {
+	public Spiller flyttBrikke(Spiller spiller) { // Usually returns null, returns the Spiller object if the current player wins the game
 		boolean tilbake = false;
 		int six_counter = 0;
 		int trill;
-		boolean stuckPaaForste = false;
 		do {
 		System.out.println("Trykk enter for å trille terningen.");
 		s.nextLine();
 		trill=dice.trill();
-		
+		if(spiller.isStuck()&&trill!=6) {
+			System.out.println("Du må trille 6 for å fortsette spillet! :c");
+			return null;
+		}
 		System.out.println(spiller.getNavn() + " trillet: " + trill);
+		
 		int currentPlace = spiller.getPlassering();
 		if(currentPlace+trill>100) {
 			System.out.println("Du trillet over 100!");
@@ -73,6 +79,7 @@ public class Spill {
 		if(six_counter==3) {
 			System.out.println("Du trillet 6 tre ganger! Gå tilbake til start. Du må trille 6 igjen for å starte");
 			spiller.setPlassering(1);
+			spiller.setStuck(true);
 		}
 		return null;
 		

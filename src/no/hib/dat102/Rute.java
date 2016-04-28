@@ -5,6 +5,9 @@ public class Rute {
 	public Rute(int rutenummer){ // Constructor
 		this.rutenummer = rutenummer;
 	}
+	public Rute() {
+		this.rutenummer = -1;
+	}
 	
 	public int getRuteIndex() {
 		return rutenummer;
