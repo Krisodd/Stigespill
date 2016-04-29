@@ -50,10 +50,12 @@ public class Klient {
 		for(int i = 0; i<antall; i++){
 			System.out.println("Hva heter spiller "+(i+1)+"?");
 			spillere[i].setNavn(tast.next());
-			spillere[i].persistSpiller();
+			if(online){
+				spillere[i].persistSpiller();
+			}
 		}
 		
-		@SuppressWarnings("unused") // All of the action is inside the constructor
+		@SuppressWarnings("unused") // All of the action is inside the constructor!
 		Spill spill = online ? new Spill(spillere, online, brettid) : new Spill(spillere, online, -1);
 		
 		boolean vinner = false;

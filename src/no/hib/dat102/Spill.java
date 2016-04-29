@@ -17,14 +17,10 @@ public class Spill {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	Integer id;
-//	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="spill", targetEntity=Spiller.class)
-//	List<Spiller> spillerene;
+
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="brett")
 	Brett brett;
-	
-	
-	transient DB_logic db = new DB_logic();
 	transient boolean uses_db;
 	transient Scanner s = new Scanner(System.in);
 	transient int currentTur;
