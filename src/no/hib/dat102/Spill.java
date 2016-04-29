@@ -133,6 +133,8 @@ public class Spill {
 		
 	}
 	
+	
+	
 	public void logEntry(Logg loggObjekt) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager em = emf.createEntityManager();
@@ -166,5 +168,6 @@ public class Spill {
 		}
 		return -1;
 	}
+	
 
 }

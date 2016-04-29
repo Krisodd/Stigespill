@@ -6,7 +6,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
@@ -17,11 +20,12 @@ public class Logg {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 //	Integer spill;
-	
 	Integer trill;
 	Integer fra;
 	Integer til;
-	@ManyToMany // TODO begynn her
+	 // TODO begynn her
+	@ManyToOne(targetEntity=Spiller.class)
+	@JoinColumn(name="spiller", referencedColumnName="id")
 	Spiller spiller;
 	public Logg() {
 	}

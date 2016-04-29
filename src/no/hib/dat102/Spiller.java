@@ -6,7 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 public class Spiller {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@OneToMany(mappedBy="spillere")
 	Integer id;
 	Boolean stuck;
 	Integer plassering;
@@ -22,6 +25,7 @@ public class Spiller {
 //	@ManyToOne
 //	@JoinColumn(name="spill", referencedColumnName="id")
 //	private Spill spill;
+	
 	
 	
 	public Spiller(){
