@@ -46,9 +46,8 @@ public class Spill {
 	public Spill(Spiller[] spillere, boolean online){
 //		spillerene = Arrays.asList(spillere);
 		uses_db=online;
-		if(uses_db){
-		brett = new Brett();
-		}
+		brett = new Brett(online);
+		
 		currentTur=0;
 		this.spillere = spillere;
 		System.out.println("Dere startet et nytt spill.");
@@ -79,7 +78,7 @@ public class Spill {
 		if(spiller.isStuck()&&trill!=6) {
 			System.out.println("Du må trille 6 for å fortsette spillet! :c");
 			// Logg
-			logEntry(logEntry);
+			if(uses_db){logEntry(logEntry);};
 			return null;
 		}
 		System.out.println(spiller.getNavn() + " trillet: " + trill);
@@ -100,7 +99,8 @@ public class Spill {
 			// TODO lag en loggTrekk() metode
 //			logg = new Logg(spiller, trill, id);
 //			logg.log();
-			logEntry(logEntry);
+			logEntry.setTil(100);
+			if(uses_db){logEntry(logEntry);};
 			return spiller;
 		}
 		if(!tilbake){
@@ -126,9 +126,8 @@ public class Spill {
 			logEntry.setTil(1);
 			spiller.setStuck(true);
 		}
-//		logg = new Logg(spiller, trill, getID());
-//		logg.log();
-		logEntry(logEntry);
+
+		if(uses_db){logEntry(logEntry);};
 		return null;
 		
 	}
@@ -159,6 +158,7 @@ public class Spill {
 	
 	public int start() { // returns the winner!
 		hvemSinTur();
+		brett.persistBrett();
 		while(!ferdig) {
 			if(flyttBrikke(spillere[currentTur])!=null) {
 				return currentTur;

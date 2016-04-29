@@ -4,26 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 
 @Entity(name="brett")
-@Table(schema = "stigespill")
+@Table(name="brett",schema = "stigespill")
 public class Brett {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	
-	final int ANTALL_RUTER = 101; // Add one to keep Arrays happy
+	@Column(name="antallstiger")
+	Integer antallStiger;
+	@Column(name="antallslanger")
+	Integer antallSlanger;
+	transient final int ANTALL_RUTER = 101; // Add one to keep Arrays happy
 	transient Rute[] ruter = new Rute[ANTALL_RUTER];
-	int[] plassering = new int[4];
+	transient int[] plassering = new int[4];
 	
 	
 	
@@ -48,30 +57,36 @@ public class Brett {
 			{77, 47}, 
 			{88, 78}, 
 			{99, 91}};
-	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="brett", targetEntity=Slange.class)
+//	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="brett", targetEntity=Slange.class)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="brett")
 	List<Slange> slanger = new ArrayList<Slange>();
-	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="brett", targetEntity=Stige.class)
+//	@OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL},mappedBy="brett", targetEntity=Stige.class)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="brett")
 	List<Stige> stiger = new ArrayList<Stige>();
 	
-	
-	public Brett() { 
-		int antallStiger = 0;
-		int antallSlanger = 0;
-
-		for(int i=1;i<ANTALL_RUTER;i++) { // populate board with tiles
+	public Brett() {
+	}
+	public Brett(Boolean uses_db) { 
+		antallStiger = 0;
+		antallSlanger = 0;
+		if(uses_db) {
+		for(int i=1;i<ANTALL_RUTER;i++) { // populate board with tiles offline
 			if(antallStiger<STIGE_MAPPING.length&&STIGE_MAPPING[antallStiger][0]==i) {
-				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1]);
+				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1], this);
 				stiger.add((Stige)ruter[i]);
 				antallStiger++;
 				System.out.println("Added stige: " + ruter[i].getRuteIndex() + " -> " + ruter[i].getDestinationIndex());
 			} else if (antallSlanger<SLANGE_MAPPING.length&&SLANGE_MAPPING[antallSlanger][0]==i) {
-				ruter[i] = new Slange(i, SLANGE_MAPPING[antallSlanger][1]);
+				ruter[i] = new Slange(i, SLANGE_MAPPING[antallSlanger][1], this);
 				antallSlanger++;
 				slanger.add((Slange)ruter[i]);
 				System.out.println("Added slange: " + ruter[i].getRuteIndex() + " -> " + ruter[i].getDestinationIndex());
 			} else {
 				ruter[i] = new Rute(i);
 			}
+		}
+		} else{
+			
 		}
 	}
 	public Rute[] getRuter() {
@@ -97,6 +112,19 @@ public class Brett {
 		if(ruter[index] instanceof Stige) {
 			ruter[index].move();
 		}
+	}
+	public void persistBrett() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(this);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public void getBrettFromDb() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+		EntityManager em = emf.createEntityManager();
 	}
 	
 }

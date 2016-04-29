@@ -1,7 +1,9 @@
 package no.hib.dat102;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,9 +24,12 @@ public class Slange extends Rute {
 	@JoinColumn(name="brett", referencedColumnName="id")
 	private Brett brett;
 	
-	public Slange(int rutenummer, int slangeMaal) {
+	public Slange(int rutenummer, int slangeMaal, Brett brett) {
 		super(rutenummer);
+		this.fra = rutenummer;
 		this.til = slangeMaal;
+		this.brett = brett;
+		
 	}
 	public Slange() {
 	}
@@ -39,4 +44,7 @@ public class Slange extends Rute {
 		System.out.println("Du landet på en slange! Satans krypdyr! Du rykker ned til " + til);
 		return getDestinationIndex();
 	}
+//	public String toString() {
+//		
+//	}
 }
