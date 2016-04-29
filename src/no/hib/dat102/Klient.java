@@ -6,7 +6,7 @@ public class Klient {
 	boolean online = false;
 	boolean valid_input = false;
 	Scanner tast = new Scanner(System.in);
-	
+	int brettid;
 	public void Start(){
 		
 		System.out.println("Hei og velkommen til stigespill");
@@ -17,6 +17,8 @@ public class Klient {
 			if(db_yn.compareToIgnoreCase("y")==0) {
 				online = true;
 				valid_input=true;
+				System.out.print("Tast inn ID på brettet du vil laste inn: " );
+				brettid = tast.nextInt();
 			} else if(db_yn.compareToIgnoreCase("n")==0) {
 				online = false;
 				valid_input=true;
@@ -51,7 +53,8 @@ public class Klient {
 			spillere[i].persistSpiller();
 		}
 		
-		Spill spill = new Spill(spillere, online);
+		@SuppressWarnings("unused") // All of the action is inside the constructor
+		Spill spill = online ? new Spill(spillere, online, brettid) : new Spill(spillere, online, -1);
 		
 		boolean vinner = false;
 		while(!vinner){
@@ -63,5 +66,8 @@ public class Klient {
 			}
 		}
 		tast.close();
+	}
+	public int getBrettId() {
+		return brettid;
 	}
 }

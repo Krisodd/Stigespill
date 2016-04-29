@@ -2,10 +2,8 @@ package no.hib.dat102;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,10 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
@@ -34,10 +29,8 @@ public class Brett {
 	transient Rute[] ruter = new Rute[ANTALL_RUTER];
 	transient int[] plassering = new int[4];
 	
-	
-	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Special tiles mapping																							//
+	// Special tiles mapping for offline play																						//
 	//																													//
 	// The mappings must be sorted by the element index (the first element in each sub-array)							//
 	// Formatted as a pair of integers, where [0] represents the tile index and [1] represents the destination index	//
@@ -67,9 +60,13 @@ public class Brett {
 	public Brett() {
 	}
 	public Brett(Boolean uses_db) { 
+		initialize(uses_db);
+	}
+	
+	public void initialize(Boolean uses_db) {
+		if(!uses_db) {
 		antallStiger = 0;
 		antallSlanger = 0;
-		if(uses_db) {
 		for(int i=1;i<ANTALL_RUTER;i++) { // populate board with tiles offline
 			if(antallStiger<STIGE_MAPPING.length&&STIGE_MAPPING[antallStiger][0]==i) {
 				ruter[i] = new Stige(i, STIGE_MAPPING[antallStiger][1], this);
@@ -86,7 +83,21 @@ public class Brett {
 			}
 		}
 		} else{
-			
+			System.out.println("// Stiger");
+			for(Stige s : stiger) {
+				System.out.println(s.getRuteIndex() + " -> " + s.getDestinationIndex());
+				ruter[s.getRuteIndex()] = s;
+			}
+			System.out.println("// Slanger");
+			for(Slange s : slanger) {
+				System.out.println(s.getRuteIndex() + " -> " + s.getDestinationIndex());
+				ruter[s.getRuteIndex()] = s;
+			}
+			for(int i=1;i<ANTALL_RUTER;i++) {
+				if(ruter[i]==null) {
+					ruter[i] = new Rute(i);
+				}
+			}
 		}
 	}
 	public Rute[] getRuter() {
@@ -98,7 +109,7 @@ public class Brett {
 	public int specialMove(int index) {
 		return ruter[index].move();
 	}
-	public int tileDestination(int index) { // If true, returns an integer with the destination tile of the special tile
+	public int tileDestination(int index) {
 		return ruter[index].getDestinationIndex();
 	}
 	public boolean isSpecialTile(int index) {
@@ -122,9 +133,12 @@ public class Brett {
 		em.close();
 	}
 	
-	public void getBrettFromDb() {
+	public static Brett getBrettFromDb(int BrettID) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = emf.createEntityManager();;
+		Brett board = em.getReference(Brett.class, BrettID);
+		return board;
+		
 	}
 	
 }

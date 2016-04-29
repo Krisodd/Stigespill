@@ -7,9 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
@@ -19,27 +17,14 @@ public class Logg {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-//	Integer spill;
 	Integer trill;
 	Integer fra;
 	Integer til;
-	 // TODO begynn her
 	@ManyToOne(targetEntity=Spiller.class)
 	@JoinColumn(name="spiller", referencedColumnName="id")
 	Spiller spiller;
 	public Logg() {
 	}
-//	public Logg(Spiller s, Integer trill, Integer spillId) {
-//		this.trill = trill;
-//		this.fra = s.getPlassering();
-//		if(!s.isStuck()){
-//		this.til = this.fra+trill;
-//		} else{
-//		this.til = 1;
-//		}
-//		this.spill = spillId;
-//		this.spiller = s.getID();
-//	}
 	public void logEntry() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager em = emf.createEntityManager();

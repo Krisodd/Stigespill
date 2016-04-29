@@ -1,18 +1,13 @@
 package no.hib.dat102;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
@@ -32,7 +27,6 @@ public class Spill {
 	transient DB_logic db = new DB_logic();
 	transient boolean uses_db;
 	transient Scanner s = new Scanner(System.in);
-	transient Terning dice = new Terning();
 	transient int currentTur;
 	transient Spiller[] spillere;
 
@@ -43,11 +37,13 @@ public class Spill {
 	}
 	public Spill() {
 	}
-	public Spill(Spiller[] spillere, boolean online){
+	public Spill(Spiller[] spillere, boolean online, int brettid){
 //		spillerene = Arrays.asList(spillere);
 		uses_db=online;
-		brett = new Brett(online);
-		
+		brett = online ? Brett.getBrettFromDb(brettid) : new Brett(online);
+		if(online) {
+		brett.initialize(online);
+		}
 		currentTur=0;
 		this.spillere = spillere;
 		System.out.println("Dere startet et nytt spill.");
@@ -73,7 +69,7 @@ public class Spill {
 		do {
 		System.out.println("Trykk enter for å trille terningen.");
 		s.nextLine();
-		trill=dice.trill();
+		trill=Terning.trill();
 		logEntry.setTrill(trill); // Trill
 		if(spiller.isStuck()&&trill!=6) {
 			System.out.println("Du må trille 6 for å fortsette spillet! :c");
@@ -158,7 +154,6 @@ public class Spill {
 	
 	public int start() { // returns the winner!
 		hvemSinTur();
-		brett.persistBrett();
 		while(!ferdig) {
 			if(flyttBrikke(spillere[currentTur])!=null) {
 				return currentTur;
